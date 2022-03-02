@@ -52,8 +52,8 @@ export default function RecentPurchase(props: RecentPurchaseProps) {
                 setState({ ...state, [anchor]: open });
             };
 
-        const list = (anchor: Anchor) => (
-            <Box sx={{ width: anchor === 'left' || anchor === 'bottom' ? 'auto' : 250}}>
+        const list = () => (
+            <Box sx={{ width: 250}}>
                 <List>
                     {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                         <ListItem button key={text}>
@@ -88,7 +88,7 @@ export default function RecentPurchase(props: RecentPurchaseProps) {
                         onClose={toggleDrawer(anchor, false)}
                         onOpen={toggleDrawer(anchor, true)}
                     >
-                        {list(anchor)}
+                        {list()}
                     </SwipeableDrawer>
                 </React.Fragment>
             ))}
