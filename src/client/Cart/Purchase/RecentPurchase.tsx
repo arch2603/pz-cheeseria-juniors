@@ -8,15 +8,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles } from "@material-ui/core/styles";
 import {CartItemType} from "../../App";
 import CartItem from "../CartItem/CartItem";
@@ -44,10 +35,16 @@ export default function RecentPurchase(props: RecentPurchaseProps) {
                 <Box sx={{ width: 450}}>
                     {item.map(data => (
                         <div>
-                            <h3>{data.title}</h3>
-                            <div className='information'>
-                                <p>Price: ${data.price}</p>
-                                <p>Total: ${(data.amount * data.price).toFixed(2)}</p>
+                            <Typography>
+                                <h3>{data.title}</h3>
+                                <div className='information'>
+                                    <p>Price: ${data.price}</p>
+                                    <p>Description: {data.description}</p>
+                                    <p>Total: ${(data.amount * data.price).toFixed(2)}</p>
+                                </div>
+                            </Typography>
+                            <div>
+                                <img src={data.image} alt={data.title} />
                             </div>
                         </div>
                     ))}
