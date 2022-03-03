@@ -1,6 +1,6 @@
 import * as express from 'express';
 const cheeses = require('./data/cheeses.json');
-const purchase = require('./data/purchase.json');
+const purchases = require('./data/purchase.json');
 let fs = require('fs')
 
 const filePath = "C:/work/personal/pz/pz-final/pz-cheeseria-juniors/src/server/data/";
@@ -11,6 +11,12 @@ router.get('/api/cheeses', (req, res, next) => {
 
     res.json(cheeses);
 });
+
+router.get('/api/recentpurchase', (req, res, next) => {
+
+    res.json(purchases);
+});
+
 
 router.post('/api/purchase', (req, res, next) => {
     try {

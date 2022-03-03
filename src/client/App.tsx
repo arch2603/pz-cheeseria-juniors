@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// @ts-ignore
+import React, {useEffect, useState} from 'react';
 import { useQuery } from 'react-query';
 // Components
 import Item from './Cart/Item/Item';
@@ -13,11 +14,9 @@ import Popup from "./Cart/Popup/Popup";
 
 // Styles
 import { Wrapper, StyledButton, StyledAppBar, HeaderTypography } from './App.styles';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import Box from "@mui/material/Box";
+import { Toolbar, Typography } from '@material-ui/core';
 import RecentPurchase from "./Cart/Purchase/RecentPurchase";
-
-
+import {response} from "express";
 
 // Types
 export type CartItemType = {
@@ -30,7 +29,6 @@ export type CartItemType = {
   amount: number;
 };
 
-
 const getCheeses = async (): Promise<CartItemType[]> =>
   await (await fetch(`api/cheeses`)).json();
 
@@ -41,10 +39,11 @@ const App = () => {
     'cheeses',
     getCheeses
   );
+
   const [open, setOpen] = useState(false);
   const [pizza, setPizza] = useState({} as CartItemType);
   const [show, setShow] = React.useState(false);
-
+  const [recentPurchase, setRecentPurchase] = useState([] as CartItemType[]);
 
   const getTotalItems = (items: CartItemType[]) =>
     items.reduce((ack: number, item) => ack + item.amount, 0);
@@ -72,7 +71,6 @@ const App = () => {
   }
 
   const handleSendItems = (item: CartItemType) => {
-    // @ts-ignore
     setPizza(item);
   }
 
@@ -92,7 +90,6 @@ const App = () => {
         }).then(function (data){
           console.log(data);
           window.location.href = "http://localhost:3000"
-      //return data;
     }).catch((error) => {
       if(error.response){
         console.log("Error with response", error.response.status)
@@ -100,9 +97,18 @@ const App = () => {
     })
   }
   
-  const handleToggleDrawer = () => {
+  const handleToggleDrawer = (toggle: boolean) => {
     console.log("Clicked");
-    setShow(true)
+     fetchRecentPurchase()
+    console.log(recentPurchase);
+    setShow(toggle);
+  }
+
+  function fetchRecentPurchase(){
+    fetch('http://localhost:3000/api/recentpurchase')
+        .then(response => response.json())
+        .then(setRecentPurchase)
+        .catch(console.error)
   }
 
   const handleRemoveFromCart = (id: number) => {
@@ -132,7 +138,7 @@ const App = () => {
             justify="space-between"
             alignItems="center"
           >
-            <StyledButton onClick={handleToggleDrawer}>
+            <StyledButton onClick={()=>{handleToggleDrawer(true)}}>
               <RestoreIcon />
               <Typography variant="subtitle2">
                   Recent Purchases
@@ -177,7 +183,7 @@ const App = () => {
         ))}
       </Grid>
       <Popup open={open}  handleCloseDialog={handleCloseDialog} handleSendItems={handleSendItems} item={pizza}/>
-      <RecentPurchase open={show} toggleDrawer={handleToggleDrawer}/>
+      <RecentPurchase item={recentPurchase} open={show} toggleDrawer={handleToggleDrawer}/>
     </Wrapper>
 
   );
