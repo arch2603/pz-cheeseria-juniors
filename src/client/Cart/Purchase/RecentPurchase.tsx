@@ -39,8 +39,7 @@ export default function RecentPurchase(props: RecentPurchaseProps) {
     const { toggleDrawer, open, item } = props;
     console.log(item)
     const classes = useStyles();
-    const PurchaseHistory = () =>{}
-        const list = () => (
+        const PurchaseHistory  = () => (
             <Wrapper>
                 <Box sx={{ width: 450}}>
                     {item.map(data => (
@@ -59,7 +58,7 @@ export default function RecentPurchase(props: RecentPurchaseProps) {
     return(
         <React.Fragment>
             <Drawer anchor={'right'} open={open} onClose={()=>{toggleDrawer(false)}} className={classes.drawer}>
-                {list()}
+                {PurchaseHistory()}
             </Drawer>
         </React.Fragment>
     );
