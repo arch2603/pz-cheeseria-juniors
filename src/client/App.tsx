@@ -100,8 +100,9 @@ const App = () => {
     })
   }
   
-  const handleRecentPurchase = () => {
+  const handleToggleDrawer = () => {
     console.log("Clicked");
+    setShow(true)
   }
 
   const handleRemoveFromCart = (id: number) => {
@@ -131,7 +132,7 @@ const App = () => {
             justify="space-between"
             alignItems="center"
           >
-            <StyledButton onClick={handleRecentPurchase}>
+            <StyledButton onClick={handleToggleDrawer}>
               <RestoreIcon />
               <Typography variant="subtitle2">
                   Recent Purchases
@@ -176,7 +177,7 @@ const App = () => {
         ))}
       </Grid>
       <Popup open={open}  handleCloseDialog={handleCloseDialog} handleSendItems={handleSendItems} item={pizza}/>
-      <RecentPurchase item={pizza} toggle={show} />
+      <RecentPurchase open={show} toggleDrawer={handleToggleDrawer}/>
     </Wrapper>
 
   );

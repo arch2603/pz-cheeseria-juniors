@@ -3,7 +3,6 @@ import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,37 +22,38 @@ import {CartItemType} from "../../App";
 import Button from "@material-ui/core/Button";
 
 export type RecentPurchaseProps = {
-    toggle: boolean;
-    item: CartItemType;
+    toggleDrawer: () => void;
+    open: boolean;
+    // item: CartItemType;
+
 }
 
-type Anchor = 'right' | 'left' | 'bottom';
+// type Anchor = 'right' ;
 
 export default function RecentPurchase(props: RecentPurchaseProps) {
-    const [state, setState] = React.useState({
-        right: false,
-        left: false,
-        bottom: false,
-    });
-    const { toggle, item } = props;
+    const { toggleDrawer, open } = props;
+    //const [state, setState] = React.useState(false);
 
-    const toggleDrawer =
-        (anchor: Anchor, open: boolean) =>
-            (event: React.KeyboardEvent | React.MouseEvent) => {
-                if (
-                    event &&
-                    event.type === 'keydown' &&
-                    ((event as React.KeyboardEvent).key === 'Tab' ||
-                        (event as React.KeyboardEvent).key === 'Shift')
-                ) {
-                    return;
-                }
+    // const toggleDrawer = (anchor: Anchor, open: boolean) =>
+    //         (event: React.KeyboardEvent | React.MouseEvent) => {
+    //             if (
+    //                 event &&
+    //                 event.type === 'keydown' &&
+    //                 ((event as React.KeyboardEvent).key === 'Tab' ||
+    //                     (event as React.KeyboardEvent).key === 'Shift')
+    //             ) {
+    //                 return;
+    //             }
+    //
+    //             setState({ ...state, [anchor]: open });
+    //         };
 
-                setState({ ...state, [anchor]: open });
-            };
+        // const toggleDrawer = (open) => (event) => {
+        //   setState(open);
+        // }
 
         const list = () => (
-            <Box sx={{ width: 250}}>
+            <Box sx={{ width: 450}}>
                 <List>
                     {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                         <ListItem button key={text}>
@@ -79,19 +79,10 @@ export default function RecentPurchase(props: RecentPurchaseProps) {
             );
     return(
         <div>
-            {(['left', 'right', 'bottom'] as const).map((anchor) => (
-                <React.Fragment key={anchor}>
-                    <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-                    <SwipeableDrawer
-                        anchor={anchor}
-                        open={state[anchor]}
-                        onClose={toggleDrawer(anchor, false)}
-                        onOpen={toggleDrawer(anchor, true)}
-                    >
+                    <Button onClick={toggleDrawer}>Click</Button>
+                    <Drawer anchor={'right'} open={open} onClose={()=>{toggleDrawer()}} >
                         {list()}
-                    </SwipeableDrawer>
-                </React.Fragment>
-            ))}
+                    </Drawer>
         </div>
     );
 }
